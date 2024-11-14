@@ -19,6 +19,8 @@ const EditRoomPage = () => {
     useEffect(() => {
         const fetchRoomDetails = async () => {
             try {
+                document.title = "Hoc Huong Hotel";
+
                 const response = await ApiService.getRoomById(roomId);
                 setRoomDetails({
                     roomPhotoUrl: response.room.roomPhotoUrl,

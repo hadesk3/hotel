@@ -24,6 +24,8 @@ const AllRoomsPage = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
+        document.title = "Hoc Huong Hotel";
+
         const response = await ApiService.getAllRooms();
         const allRooms = response.roomList;
         setRooms(allRooms);

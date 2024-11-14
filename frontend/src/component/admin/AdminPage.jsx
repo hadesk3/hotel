@@ -9,6 +9,8 @@ const AdminPage = () => {
     useEffect(() => {
         const fetchAdminName = async () => {
             try {
+                document.title = "Hoc Huong Hotel";
+
                 const response = await ApiService.getUserProfile();
                 setAdminName(response.user.name);
             } catch (error) {

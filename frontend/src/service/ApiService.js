@@ -2,7 +2,9 @@ import axios from "axios"
 
 export default class ApiService {
 
-    static BASE_URL = "http://localhost:8080"
+    
+    static BASE_URL = `${process.env.REACT_APP_API_URL}`;
+   
 
     static getHeader() {
         const token = localStorage.getItem("token");
@@ -12,12 +14,12 @@ export default class ApiService {
         };
     }
 
-    /**AUTH */
 
-    /* This  register a new user */
     static async registerUser(registration) {
-        const response = await axios.post(`${this.BASE_URL}/auth/register`, registration)
-        return response.data
+        const response = await axios.post(`${this.BASE_URL}/auth/registry`, registration, {
+            headers: { "Content-Type": "application/json" } // Không thêm Authorization header
+        });
+        return response.data;
     }
 
     /* This  login a registered user */

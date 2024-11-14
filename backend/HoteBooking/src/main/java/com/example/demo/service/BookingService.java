@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.BookingDto;
@@ -17,6 +19,8 @@ import com.example.demo.repository.RoomRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.Utils;
 
+import jakarta.mail.internet.MimeMessage;
+
 @Service
 public class BookingService {
 	@Autowired
@@ -27,6 +31,9 @@ public class BookingService {
     private RoomRepository roomRepository;
     @Autowired
     private UserRepository userRepository;
+    
+    private EmailService emailService = new EmailService();
+    
     private boolean roomIsAvailable(Booking bookingRequest, List<Booking> existingBookings) {
 
         return existingBookings.stream()
@@ -75,6 +82,8 @@ public class BookingService {
             response.setStatusCode(200);
             response.setMessage("successful");
             response.setBookingConfirmationCode(bookingConfirmationCode);
+            String body = "Thank you for booking Hoc Huong hotel, here is your information\nCode: " +  bookingConfirmationCode +"\n Room"+roomId;
+            emailService.sendEmail(user.getEmail(), body);
 
         } catch (OurException e) {
             response.setStatusCode(404);
@@ -161,3 +170,30 @@ public class BookingService {
     }
 
 }	
+
+
+
+
+
+class EmailService {
+    public EmailService()
+    {
+
+    }
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    public void sendEmail(String to, String body) throws Exception {
+        
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, "utf-8");
+        String subject = "Infomation about booking in Hoc Huong hotel"   ;
+        // Cấu hình các thuộc tính email
+        messageHelper.setTo(to);
+        messageHelper.setSubject(subject);
+        messageHelper.setText(body, true);  // Tham số thứ 2 để cho phép HTML trong email
+
+        // Gửi email
+        javaMailSender.send(mimeMessage);
+    }
+}

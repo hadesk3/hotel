@@ -14,6 +14,8 @@ const ManageBookingsPage = () => {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
+                document.title = "Hoc Huong Hotel";
+
                 const response = await ApiService.getAllBookings();
                 const allBookings = response.bookingList;
                 setBookings(allBookings);

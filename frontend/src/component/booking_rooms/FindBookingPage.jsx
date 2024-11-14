@@ -13,6 +13,7 @@ const FindBookingPage = () => {
             return;
         }
         try {
+            
             // Call API to get booking details
             const response = await ApiService.getBookingByConfirmationCode(confirmationCode);
             setBookingDetails(response.booking);

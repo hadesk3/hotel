@@ -22,6 +22,7 @@ const AddRoomPage = () => {
     useEffect(() => {
         const fetchRoomTypes = async () => {
             try {
+                document.title = "Hoc Huong Hotel";
                 const types = await ApiService.getRoomTypes();
                 setRoomTypes(types);
             } catch (error) {

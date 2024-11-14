@@ -25,6 +25,8 @@ const RoomDetailsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        document.title = "Hoc Huong Hotel";
+
         setIsLoading(true); // Set loading state to true
         const response = await ApiService.getRoomById(roomId);
         setRoomDetails(response.room);
